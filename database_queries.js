@@ -1,29 +1,40 @@
+const { Client } = require("pg");
+const client = new Client();
+(async () => {
+  await client.connect();
+})();
+
 module.exports = {
-    // getAllPersons should retrieve all person records
-    // currently held.
-    getAllPersons: async () => {
-        // TODO: replace_me
-        return [
-            { id: 1, name: 'Alice', twitter: '@alice', lang: 'JavaScript' },
-            { id: 2, name: 'Bob', twitter: '@bob', lang: 'Go' },
-        ];
-    },
+  // getAllPersons should retrieve all person records
 
-    // savePerson should create a new person record and
-    // return its `id`.
-    savePerson: async (name, twitterHandle, favouriteLanguage) => {
-        // TODO: replace_me
-        console.log(`${new Date} [info] saving --> `, { name, twitterHandle, favouriteLanguage })
+  // currently held.
+  getAllPersons: async () => {
+      const res = await.client.query(`
 
-        return { id: 123 };
-    },
+      SELECT 
+      id, 
+      name,
+      handle,
+      language
+      FROM username `);
 
-    // deletePerson should delete a person record and
-    // return true or false depending of if it succeeded.
-    deletePerson: async (id) => {
-        // TODO: replace_me
-        console.log(`${new Date} [info] deleting -> `, { id })
+      return res.rows;
+  },
+    
+  // savePerson should create a new person record and
+  // return its `id`.
+  savePerson: async (name, twitterHandle, favouriteLanguage) => {
+    const res = await client.query(`
+    `, [name, twitterHandle, favouriteLanguage]);
 
-        return true;
-    },
+    return res.rows[0];
+},
+
+  // deletePerson should delete a person record and
+  // return true or false depending of if it succeeded.
+  deletePerson: async (id) => {
+    await client.query( [id]);
+
+    return true;
+},
 };
